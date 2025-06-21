@@ -67,6 +67,7 @@ a:link, a:visited {
     transition-duration: 0.4s;
     font-size: 20px;
     margin-left: 50px;
+    color:black;
 }
 
 .button:hover {
