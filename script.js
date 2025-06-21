@@ -40,15 +40,32 @@ const articles = {
     title: "Laban ng de Kuwerdas na Instrumento ngayong LCAF 2025",
     author: "By Mae Adelaine Alarcon | May 05, 2025",
     image: "instruments.JPG",
-    content: "Nota mula sa iba’t ibang instrumento ang bumalot sa Cavite State University..."
+    content: `Nota mula sa iba’t ibang instrumento ang bumalot sa Cavite State University Imus Gymnasium noong ika-13 ng Marso sa huling araw ng Local Culture and Arts Festival 2025. Nagdaos ng patimpalak sa musical instruments sa larangan ng violin, classic guitar, at banduria. Bilang mga kampeon, nasungkit nina Christofer Marky C. Gomez at Jeremie A. Canosa ang ginto sa pagtugtog ng banduria at classic guitar sa kantang “Karatong” na may 95.5% na kabuuang iskor. Idineklara namang wagi si John Josel Parole sa pagtugtog ng kantang “Ride Home” ng Ben&Ben gamit ang violin na nakatanggap ng 94% na iskor. Sa panghuli, pinarangalan din ng ginto si Adriane Ravil G. Reliosa sa pagtugtog ng classic guitar sa kantang “Kanlungan” ni Noel Cabangon at nakatanggap naman ng 95.5% mula sa mga hurado.`
   },
   2: {
     title: "Sa Pag-Iyak at Pag-Tawa, sa Sinag-Tala ang Korona",
     author: "By Mae Adelaine Alarcon | May 05, 2025",
     image: "sweetplay.jpg",
-    content: "Hindi nagpahuli ang Dramatic Arts Contest na ginanap noong ika-11 ng Marso..."
+    content: `Ginawaran ng Sinag-Tala Performing Arts Group ang entablado ng CvSU-Imus Gymnasium noong Marso 11, 2025 sa kanilang pagtatanghal ng sweet play dialogue na “Oras” at musical na “Kumot.” Alinsunod sa temang “Kultura’t Sining, Tanglaw ng Makabagong Panahon,” ang kanilang pagtatanghal ay tumanggap ng masigabong palakpakan mula sa mga manonood. Sila rin ang idineklarang kampeon sa parehong kategorya. Gumanap bilang hurado sina Joanna Mae Anglit at Kenneth Tolosa.`
   },
-  // Add more articles here...
+  3: {
+    title: "Lingon sa Kahapon",
+    author: "By Mae Adelaine Alarcon via The Flare | May 05, 2025",
+    image: "litart.jpg",
+    content: `Isang malikhaing pagsilip sa kasaysayan gamit ang wika ng sining at damdamin: Sa tulong ng mga larawang sinauna at tanawin ng Fuerte de Santiago, binigyang-buhay ng mga kalahok ang mga alaala ng lumipas na panahon. Sa bawat linya at larawan, muling isinilang ang mga tanong: Handa ka na bang lumingon sa kahapon?`
+  },
+  4: {
+    title: "CBRC Holds National Teachers Education Quiz Bee at CvSU-Imus",
+    author: "By Mae Adelaine Alarcon via The Flare | March 17, 2025",
+    image: "art4.jpg",
+    content: `Isinagawa ang CBRC National Teacher Education Quiz Bee noong Abril 4, 2025 sa CvSU-Imus Gymnasium. Nagwagi sina Ria Mae Del Rosario (2nd Place), Ramela Hojas (3rd Place), at Jahn Mark Casubuan (1st Place), na kakatawan sa CvSU-Imus sa Provincial Round sa Abril 26. Ang mga nanalo ay binigyan ng certificate, review scholarship, at materyales bilang paghahanda sa LET ngayong Setyembre.`
+  },
+  5: {
+    title: "Ibong Pipit, Awit Nang Awit",
+    author: "By Mae Adelaine Alarcon | May 05, 2025",
+    image: "art5.jpg",
+    content: `Isang makabayang sanaysay tungkol sa musika at tradisyong Pilipino. Sa gitna ng modernong mundo, ipinaglaban ng tagapagsalaysay ang kahalagahan ng kundiman, banduria, at mga lumang himig. Aniya, kahit bumagsak man ang ibong pipit, hindi ito titigil sa pag-awit.`
+  }
 };
 
 window.addEventListener("DOMContentLoaded", () => {
