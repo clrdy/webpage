@@ -36,7 +36,7 @@ function updateAllTimestamps() {
             span.textContent = timeAgo(timestamp);
         }
     });
-}
+
 document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.querySelector('.searchbar');
     const articles = document.querySelectorAll('.row a');
