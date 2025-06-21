@@ -1,6 +1,5 @@
-// script.js
+// TIME AGO FUNCTIONALITY
 document.addEventListener('DOMContentLoaded', function() {
-    // TIME AGO FUNCTION
     function timeAgo(timestamp) {
         const now = new Date();
         const past = new Date(timestamp);
@@ -30,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(updateAllTimestamps, 60000);
 });
 
-// ARTICLES DB
+// ARTICLE DATABASE
 const articles = {
   1: {
     title: "Laban ng de Kuwerdas na Instrumento ngayong LCAF 2025",
@@ -64,7 +63,7 @@ const articles = {
   }
 };
 
-// WAIT UNTIL FULL PAGE LOAD FOR RELIABLE POSITIONING
+// SEARCH + LOAD ARTICLES
 window.addEventListener("load", () => {
   const searchInput = document.querySelector(".searchbar");
   if (!searchInput) return;
@@ -81,7 +80,7 @@ window.addEventListener("load", () => {
   dropdown.style.fontFamily = "Century Gothic, sans-serif";
   document.body.appendChild(dropdown);
 
-  // AUTOSUGGEST
+  // AUTOSUGGEST & AUTO-REDIRECT
   searchInput.addEventListener("input", () => {
     const val = searchInput.value.toLowerCase();
     dropdown.innerHTML = "";
@@ -93,7 +92,15 @@ window.addEventListener("load", () => {
 
     for (const id in articles) {
       const article = articles[id];
-      if (article.title.toLowerCase().includes(val)) {
+      const titleLower = article.title.toLowerCase();
+
+      if (titleLower.includes(val)) {
+        // Redirect immediately if input exactly matches
+        if (titleLower === val) {
+          window.location.href = `latestnews.html?id=${id}`;
+          return;
+        }
+
         const item = document.createElement("a");
         item.href = `latestnews.html?id=${id}`;
         item.textContent = article.title;
@@ -123,7 +130,7 @@ window.addEventListener("load", () => {
     }
   });
 
-  // LOAD FULL ARTICLE ON latestnews.html
+  // LOAD ARTICLE IF IN latestnews.html?id=#
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
   if (id && articles[id]) {
