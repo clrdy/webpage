@@ -1,32 +1,32 @@
 // TIME AGO FUNCTIONALITY
-document.addEventListener('DOMContentLoaded', function() {
-    function timeAgo(timestamp) {
-        const now = new Date();
-        const past = new Date(timestamp);
-        const seconds = Math.floor((now - past) / 1000);
-        let interval = Math.floor(seconds / 31536000);
-        if (interval >= 1) return interval + " year" + (interval === 1 ? "" : "s") + " ago";
-        interval = Math.floor(seconds / 2592000);
-        if (interval >= 1) return interval + " month" + (interval === 1 ? "" : "s") + " ago";
-        interval = Math.floor(seconds / 86400);
-        if (interval >= 1) return interval + " day" + (interval === 1 ? "" : "s") + " ago";
-        interval = Math.floor(seconds / 3600);
-        if (interval >= 1) return interval + " hour" + (interval === 1 ? "" : "s") + " ago";
-        interval = Math.floor(seconds / 60);
-        if (interval >= 1) return interval + " minute" + (interval === 1 ? "" : "s") + " ago";
-        return Math.floor(seconds) + " second" + (seconds === 1 ? "" : "s") + " ago";
-    }
+document.addEventListener('DOMContentLoaded', function () {
+  function timeAgo(timestamp) {
+    const now = new Date();
+    const past = new Date(timestamp);
+    const seconds = Math.floor((now - past) / 1000);
+    let interval = Math.floor(seconds / 31536000);
+    if (interval >= 1) return interval + " year" + (interval === 1 ? "" : "s") + " ago";
+    interval = Math.floor(seconds / 2592000);
+    if (interval >= 1) return interval + " month" + (interval === 1 ? "" : "s") + " ago";
+    interval = Math.floor(seconds / 86400);
+    if (interval >= 1) return interval + " day" + (interval === 1 ? "" : "s") + " ago";
+    interval = Math.floor(seconds / 3600);
+    if (interval >= 1) return interval + " hour" + (interval === 1 ? "" : "s") + " ago";
+    interval = Math.floor(seconds / 60);
+    if (interval >= 1) return interval + " minute" + (interval === 1 ? "" : "s") + " ago";
+    return Math.floor(seconds) + " second" + (seconds === 1 ? "" : "s") + " ago";
+  }
 
-    function updateAllTimestamps() {
-        const timestamps = document.querySelectorAll('.timestamp');
-        timestamps.forEach(span => {
-            const timestamp = span.getAttribute('data-timestamp');
-            if (timestamp) span.textContent = timeAgo(timestamp);
-        });
-    }
+  function updateAllTimestamps() {
+    const timestamps = document.querySelectorAll('.timestamp');
+    timestamps.forEach(span => {
+      const timestamp = span.getAttribute('data-timestamp');
+      if (timestamp) span.textContent = timeAgo(timestamp);
+    });
+  }
 
-    updateAllTimestamps();
-    setInterval(updateAllTimestamps, 60000);
+  updateAllTimestamps();
+  setInterval(updateAllTimestamps, 60000);
 });
 
 // ARTICLE DATABASE
@@ -63,12 +63,11 @@ const articles = {
   }
 };
 
-// SEARCH + LOAD ARTICLES
+// SEARCH AUTOSUGGEST + REDIRECT FUNCTIONALITY
 window.addEventListener("load", () => {
   const searchInput = document.querySelector(".searchbar");
   if (!searchInput) return;
 
-  // CREATE DROPDOWN
   const dropdown = document.createElement("div");
   dropdown.style.position = "absolute";
   dropdown.style.background = "#fff";
@@ -80,9 +79,17 @@ window.addEventListener("load", () => {
   dropdown.style.fontFamily = "Century Gothic, sans-serif";
   document.body.appendChild(dropdown);
 
-  // AUTOSUGGEST & AUTO-REDIRECT
+  // POSITION DROPDOWN
+  function positionDropdown() {
+    const rect = searchInput.getBoundingClientRect();
+    dropdown.style.left = `${rect.left + window.scrollX}px`;
+    dropdown.style.top = `${rect.bottom + window.scrollY}px`;
+    dropdown.style.width = `${rect.width}px`;
+  }
+
+  // AUTOSUGGEST
   searchInput.addEventListener("input", () => {
-    const val = searchInput.value.toLowerCase();
+    const val = searchInput.value.toLowerCase().trim();
     dropdown.innerHTML = "";
 
     if (!val) {
@@ -90,17 +97,11 @@ window.addEventListener("load", () => {
       return;
     }
 
+    let found = false;
+
     for (const id in articles) {
       const article = articles[id];
-      const titleLower = article.title.toLowerCase();
-
-      if (titleLower.includes(val)) {
-        // Redirect immediately if input exactly matches
-        if (titleLower === val) {
-          window.location.href = `latestnews.html?id=${id}`;
-          return;
-        }
-
+      if (article.title.toLowerCase().includes(val)) {
         const item = document.createElement("a");
         item.href = `latestnews.html?id=${id}`;
         item.textContent = article.title;
@@ -111,38 +112,45 @@ window.addEventListener("load", () => {
           color: "#000"
         });
         item.addEventListener("mouseover", () => item.style.background = "#eee");
-        item.addEventListener("mouseout", () => item.style.background = "white");
+        item.addEventListener("mouseout", () => item.style.background = "#fff");
         dropdown.appendChild(item);
+        found = true;
       }
     }
 
-    const rect = searchInput.getBoundingClientRect();
-    dropdown.style.left = `${rect.left + window.scrollX}px`;
-    dropdown.style.top = `${rect.bottom + window.scrollY}px`;
-    dropdown.style.width = `${rect.width}px`;
-    dropdown.style.display = dropdown.innerHTML ? "block" : "none";
+    if (found) {
+      positionDropdown();
+      dropdown.style.display = "block";
+    } else {
+      dropdown.style.display = "none";
+    }
   });
 
-  // HIDE ON OUTSIDE CLICK
+  // HIDE DROPDOWN ON OUTSIDE CLICK
   document.addEventListener("click", (e) => {
     if (!dropdown.contains(e.target) && e.target !== searchInput) {
       dropdown.style.display = "none";
     }
   });
 
-  // LOAD ARTICLE IF IN latestnews.html?id=#
+  // REDIRECT IF user presses ENTER and match is found
+  searchInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      const val = searchInput.value.toLowerCase().trim();
+      for (const id in articles) {
+        const title = articles[id].title.toLowerCase();
+        if (title.includes(val)) {
+          window.location.href = `latestnews.html?id=${id}`;
+          return;
+        }
+      }
+    }
+  });
+
+  // LOAD ARTICLE IN latestnews.html?id=#
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
   if (id && articles[id]) {
     const article = articles[id];
     const image = document.getElementById("image");
-    const title = document.getElementById("title");
-    const author = document.getElementById("author");
-    const content = document.getElementById("content");
-
-    if (image) image.src = article.image;
-    if (title) title.textContent = article.title;
-    if (author) author.textContent = article.author;
-    if (content) content.innerHTML = article.content;
-  }
-});
+    const title = document.getElementBy
