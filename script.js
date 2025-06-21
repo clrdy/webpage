@@ -54,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-<script>
 // Existing loadArticle logic remains unchanged
 function loadArticle(id) {
   const article = articles[id];
@@ -108,7 +107,6 @@ dropdown.addEventListener("change", function () {
 
 // Add the dropdown to the sidebar (or wherever you like)
 document.querySelector(".sidebar").prepend(dropdown);
-</script>
 
 
 
