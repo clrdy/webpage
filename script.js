@@ -138,31 +138,31 @@ document.addEventListener("DOMContentLoaded", () => {
             1: {
                 title: "Laban ng de Kuwerdas na Instrumento ngayong LCAF 2025",
                 author: "By Mae Adelaine Alarcon | May 05, 2025",
-                image: "instruments.JPG",
+               
                 content: "Full content for Article 1..."
             },
             2: {
                 title: "Sa Pag-Iyak at Pag-Tawa, sa Sinag-Tala ang Korona",
                 author: "By Mae Adelaine Alarcon | May 05, 2025",
-                image: "sweetplay.jpg",
+            
                 content: "Full content for Article 2..."
             },
             3: {
                 title: "Lingon sa Kahapon",
                 author: "By Mae Adelaine Alarcon | May 05, 2025",
-                image: "litart.jpg",
+           
                 content: "Full content for Article 3..."
             },
             4: {
                 title: "CBRC Holds National Teachers Education Quiz Bee at CvSU-Imus",
                 author: "By Mae Adelaine Alarcon | March 17, 2025",
-                image: "art4.jpg",
+        
                 content: "Full content for Article 4..."
             },
             5: {
                 title: "Ibong Pipit, Awit Nang Awit",
                 author: "By Mae Adelaine Alarcon | May 05, 2025",
-                image: "art5.jpg",
+   
                 content: "Full content for Article 5..."
             }
         };
