@@ -54,19 +54,61 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-document.querySelector('.searchbar').addEventListener('input', function () {
-  const query = this.value.toLowerCase();
-  const relatedArticles = document.querySelectorAll('.related');
+<script>
+// Existing loadArticle logic remains unchanged
+function loadArticle(id) {
+  const article = articles[id];
+  const main = document.getElementById("main-article");
 
-  relatedArticles.forEach(article => {
-    const text = article.textContent.toLowerCase();
-    if (text.includes(query)) {
-      article.style.display = 'block';
-    } else {
-      article.style.display = 'none';
-    }
+  main.classList.add("fade-out");
+
+  setTimeout(() => {
+    document.getElementById("image").src = article.image;
+    document.getElementById("title").textContent = article.title;
+    document.getElementById("author").textContent = article.author;
+    document.getElementById("content").innerHTML = article.content.replace(/\n\s*\n/g, "<br><br>").replace(/\n/g, " ");
+    main.classList.remove("fade-out");
+  }, 400);
+}
+
+// Clickable article box logic
+document.querySelectorAll('.related').forEach(item => {
+  item.addEventListener('click', () => {
+    const id = item.getAttribute('data-id');
+    loadArticle(id);
   });
 });
+
+// ✅ Dropdown Menu Injection & Logic
+const dropdown = document.createElement("select");
+dropdown.id = "articleDropdown";
+dropdown.style.margin = "10px";
+dropdown.style.padding = "5px";
+
+// Add default option
+const defaultOption = document.createElement("option");
+defaultOption.textContent = "-- Select an article --";
+defaultOption.disabled = true;
+defaultOption.selected = true;
+dropdown.appendChild(defaultOption);
+
+// Populate dropdown with article titles
+Object.entries(articles).forEach(([id, article]) => {
+  const option = document.createElement("option");
+  option.value = id;
+  option.textContent = article.title;
+  dropdown.appendChild(option);
+});
+
+// On change, load the selected article
+dropdown.addEventListener("change", function () {
+  const selectedId = this.value;
+  loadArticle(selectedId);
+});
+
+// Add the dropdown to the sidebar (or wherever you like)
+document.querySelector(".sidebar").prepend(dropdown);
+</script>
 
 
 
