@@ -1,56 +1,48 @@
 // script.js
+document.addEventListener('DOMContentLoaded', function() {
+    // TIME AGO FUNCTION
+    function timeAgo(timestamp) {
+        const now = new Date();
+        const past = new Date(timestamp);
+        const seconds = Math.floor((now - past) / 1000);
+        let interval = Math.floor(seconds / 31536000);
+        if (interval >= 1) return interval + " year" + (interval === 1 ? "" : "s") + " ago";
+        interval = Math.floor(seconds / 2592000);
+        if (interval >= 1) return interval + " month" + (interval === 1 ? "" : "s") + " ago";
+        interval = Math.floor(seconds / 86400);
+        if (interval >= 1) return interval + " day" + (interval === 1 ? "" : "s") + " ago";
+        interval = Math.floor(seconds / 3600);
+        if (interval >= 1) return interval + " hour" + (interval === 1 ? "" : "s") + " ago";
+        interval = Math.floor(seconds / 60);
+        if (interval >= 1) return interval + " minute" + (interval === 1 ? "" : "s") + " ago";
+        return Math.floor(seconds) + " second" + (seconds === 1 ? "" : "s") + " ago";
+    }
 
-document.addEventListener('DOMContentLoaded', function () {
-  // TIMESTAMP HANDLING
-  function timeAgo(timestamp) {
-    const now = new Date();
-    const past = new Date(timestamp);
-    const seconds = Math.floor((now - past) / 1000);
+    function updateAllTimestamps() {
+        const timestamps = document.querySelectorAll('.timestamp');
+        timestamps.forEach(span => {
+            const timestamp = span.getAttribute('data-timestamp');
+            if (timestamp) span.textContent = timeAgo(timestamp);
+        });
+    }
 
-    let interval = Math.floor(seconds / 31536000);
-    if (interval >= 1) return interval + " year" + (interval === 1 ? "" : "s") + " ago";
-
-    interval = Math.floor(seconds / 2592000);
-    if (interval >= 1) return interval + " month" + (interval === 1 ? "" : "s") + " ago";
-
-    interval = Math.floor(seconds / 86400);
-    if (interval >= 1) return interval + " day" + (interval === 1 ? "" : "s") + " ago";
-
-    interval = Math.floor(seconds / 3600);
-    if (interval >= 1) return interval + " hour" + (interval === 1 ? "" : "s") + " ago";
-
-    interval = Math.floor(seconds / 60);
-    if (interval >= 1) return interval + " minute" + (interval === 1 ? "" : "s") + " ago";
-
-    return Math.floor(seconds) + " second" + (seconds === 1 ? "" : "s") + " ago";
-  }
-
-  function updateAllTimestamps() {
-    const timestamps = document.querySelectorAll('.timestamp');
-    timestamps.forEach(span => {
-      const timestamp = span.getAttribute('data-timestamp');
-      if (timestamp) span.textContent = timeAgo(timestamp);
-    });
-  }
-
-  updateAllTimestamps();
-  setInterval(updateAllTimestamps, 60000);
+    updateAllTimestamps();
+    setInterval(updateAllTimestamps, 60000);
 });
 
-
-// ARTICLES DATABASE
+// ARTICLES DB
 const articles = {
   1: {
     title: "Laban ng de Kuwerdas na Instrumento ngayong LCAF 2025",
     author: "By Mae Adelaine Alarcon | May 05, 2025",
-    image: "instruments.JPG",
+    image: "instruments.jpg",
     content: `Nota mula sa iba’t ibang instrumento...`
   },
   2: {
     title: "Sa Pag-Iyak at Pag-Tawa, sa Sinag-Tala ang Korona",
     author: "By Mae Adelaine Alarcon | May 05, 2025",
     image: "sweetplay.jpg",
-    content: `Ginawaran ng Sinag-Tala...`
+    content: `Ginawaran ng Sinag-Tala Performing Arts Group...`
   },
   3: {
     title: "Lingon sa Kahapon",
@@ -68,16 +60,16 @@ const articles = {
     title: "Ibong Pipit, Awit Nang Awit",
     author: "By Mae Adelaine Alarcon | May 05, 2025",
     image: "art5.jpg",
-    content: `Isang makabayang sanaysay...`
+    content: `Isang makabayang sanaysay tungkol sa musika...`
   }
 };
 
-
-// SEARCH BAR AUTOSUGGEST DROPDOWN
-window.addEventListener("DOMContentLoaded", () => {
+// WAIT UNTIL FULL PAGE LOAD FOR RELIABLE POSITIONING
+window.addEventListener("load", () => {
   const searchInput = document.querySelector(".searchbar");
   if (!searchInput) return;
 
+  // CREATE DROPDOWN
   const dropdown = document.createElement("div");
   dropdown.style.position = "absolute";
   dropdown.style.background = "#fff";
@@ -89,9 +81,11 @@ window.addEventListener("DOMContentLoaded", () => {
   dropdown.style.fontFamily = "Century Gothic, sans-serif";
   document.body.appendChild(dropdown);
 
+  // AUTOSUGGEST
   searchInput.addEventListener("input", () => {
     const val = searchInput.value.toLowerCase();
     dropdown.innerHTML = "";
+
     if (!val) {
       dropdown.style.display = "none";
       return;
@@ -122,13 +116,14 @@ window.addEventListener("DOMContentLoaded", () => {
     dropdown.style.display = dropdown.innerHTML ? "block" : "none";
   });
 
+  // HIDE ON OUTSIDE CLICK
   document.addEventListener("click", (e) => {
     if (!dropdown.contains(e.target) && e.target !== searchInput) {
       dropdown.style.display = "none";
     }
   });
 
-  // LOAD FULL ARTICLE IF ON latestnews.html?id=#
+  // LOAD FULL ARTICLE ON latestnews.html
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
   if (id && articles[id]) {
