@@ -39,7 +39,7 @@ const articles = {
   1: {
     title: "Laban ng de Kuwerdas na Instrumento ngayong LCAF 2025",
     author: "By Mae Adelaine Alarcon | May 05, 2025",
-    image: "instruments.JPG",
+    image: "instruments.jpg",
     content: `Nota mula sa iba’t ibang instrumento ang bumalot sa Cavite State University Imus Gymnasium noong ika-13 ng Marso sa huling araw ng Local Culture and Arts Festival 2025. Nagdaos ng patimpalak sa musical instruments sa larangan ng violin, classic guitar, at banduria. Bilang mga kampeon, nasungkit nina Christofer Marky C. Gomez at Jeremie A. Canosa ang ginto sa pagtugtog ng banduria at classic guitar sa kantang “Karatong” na may 95.5% na kabuuang iskor. Idineklara namang wagi si John Josel Parole sa pagtugtog ng kantang “Ride Home” ng Ben&Ben gamit ang violin na nakatanggap ng 94% na iskor. Sa panghuli, pinarangalan din ng ginto si Adriane Ravil G. Reliosa sa pagtugtog ng classic guitar sa kantang “Kanlungan” ni Noel Cabangon at nakatanggap naman ng 95.5% mula sa mga hurado.`
   },
   2: {
