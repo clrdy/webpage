@@ -26,7 +26,6 @@ function timeAgo(timestamp) {
     return Math.floor(seconds) + " second" + (seconds === 1 ? "" : "s") + " ago";
 }
 
-
 function updateAllTimestamps() {
     const timestamps = document.querySelectorAll('.timestamp');
     
@@ -36,6 +35,13 @@ function updateAllTimestamps() {
             span.textContent = timeAgo(timestamp);
         }
     });
+}
+
+// Run when DOM is ready and then every minute
+document.addEventListener('DOMContentLoaded', function() {
+    updateAllTimestamps();
+    setInterval(updateAllTimestamps, 60000);
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.querySelector('.searchbar');
