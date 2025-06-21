@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
   updateAllTimestamps();
   setInterval(updateAllTimestamps, 60000);
 
-  // SEARCH BAR FUNCTIONALITY
+  // SEARCH FUNCTIONALITY
   const articles = {
     1: { title: "Laban ng de Kuwerdas na Instrumento ngayong LCAF 2025" },
     2: { title: "Sa Pag-Iyak at Pag-Tawa, sa Sinag-Tala ang Korona" },
@@ -70,17 +70,17 @@ document.addEventListener('DOMContentLoaded', function () {
         item.style.borderBottom = '1px solid #eee';
 
         item.addEventListener('click', () => {
-          // Scroll to the respective article element
-          const relatedArticle = document.querySelector(`.related[data-id="${id}"]`);
-          if (relatedArticle) {
-            relatedArticle.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            relatedArticle.style.background = '#ffffcc';
-            setTimeout(() => relatedArticle.style.background = '', 1000);
-          }
-
-          // Optionally also load the article into main view:
+          // Load article dynamically using existing function
           if (typeof loadArticle === 'function') {
             loadArticle(id);
+          }
+
+          // Optional: briefly highlight corresponding sidebar article
+          const relatedItem = document.querySelector(`.related[data-id="${id}"]`);
+          if (relatedItem) {
+            relatedItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            relatedItem.style.background = '#ffffcc';
+            setTimeout(() => relatedItem.style.background = '', 1000);
           }
 
           dropdown.style.display = 'none';
