@@ -37,4 +37,23 @@ function updateAllTimestamps() {
         }
     });
 }
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('.searchbar');
+    const articles = document.querySelectorAll('.row a');
+
+    searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase();
+
+        articles.forEach(article => {
+            const title = article.querySelector('h3').textContent.toLowerCase();
+            if (title.includes(searchTerm)) {
+                article.style.display = ''; // show
+            } else {
+                article.style.display = 'none'; // hide
+            }
+        });
+    });
+});
+
+
 
