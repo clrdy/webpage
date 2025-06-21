@@ -54,6 +54,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+document.querySelector('.searchbar').addEventListener('input', function () {
+  const query = this.value.toLowerCase();
+  const relatedArticles = document.querySelectorAll('.related');
+
+  relatedArticles.forEach(article => {
+    const text = article.textContent.toLowerCase();
+    if (text.includes(query)) {
+      article.style.display = 'block';
+    } else {
+      article.style.display = 'none';
+    }
+  });
+});
 
 
 
