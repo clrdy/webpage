@@ -37,139 +37,96 @@ function updateAllTimestamps() {
     });
 }
 
-// Run when DOM is ready and then every minute
-document.addEventListener('DOMContentLoaded', function() {
-    updateAllTimestamps();
-    setInterval(updateAllTimestamps, 60000);
-});
-// Article database shared across pages
+// articles database
 const articles = {
-  1: { 
+  1: {
     title: "Laban ng de Kuwerdas na Instrumento ngayong LCAF 2025",
     author: "By Mae Adelaine Alarcon | May 05, 2025",
     image: "instruments.JPG",
-    content: `Nota mula sa iba’t ibang instrumento...` // shorten for example
+    content: "Nota mula sa iba’t ibang instrumento ang bumalot sa Cavite State University..."
   },
   2: {
     title: "Sa Pag-Iyak at Pag-Tawa, sa Sinag-Tala ang Korona",
     author: "By Mae Adelaine Alarcon | May 05, 2025",
     image: "sweetplay.jpg",
-    content: `Hindi nagpahuli ang Dramatic Arts...`
+    content: "Hindi nagpahuli ang Dramatic Arts Contest na ginanap noong ika-11 ng Marso..."
   },
-  3: {
-    title: "Lingon sa Kahapon",
-    author: "By Mae Adelaine Alarcon via The Flare | May 05, 2025",
-    image: "litart.jpg",
-    content: `Una Mirada al Pasado...`
-  },
-  4: {
-    title: "CBRC Holds National Teachers Education Quiz Bee at CvSU-Imus",
-    author: "By Mae Adelaine Alarcon via The Flare | March 17, 2025",
-    image: "art4.jpg",
-    content: `Carl E. Balita Review Center...`
-  },
-  5: {
-    title: "Ibong Pipit, Awit Nang Awit",
-    author: "By Mae Adelaine Alarcon | May 05, 2025",
-    image: "art5.jpg",
-    content: `Tila isang ibong pipit...`
-  }
+  // Add more articles here...
 };
 
-// --------------------- SEARCH BAR DROPDOWN ---------------------
-window.addEventListener('DOMContentLoaded', () => {
-  const searchInput = document.querySelector('.searchbar');
+window.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.querySelector(".searchbar");
   if (!searchInput) return;
 
-  const resultBox = document.createElement('div');
-  resultBox.style.position = 'absolute';
-  resultBox.style.background = '#fff';
-  resultBox.style.border = '1px solid #ccc';
-  resultBox.style.width = '200px';
-  resultBox.style.zIndex = '1000';
-  resultBox.style.maxHeight = '200px';
-  resultBox.style.overflowY = 'auto';
-  resultBox.style.display = 'none';
-  resultBox.style.fontFamily = 'Century Gothic, sans-serif';
-  resultBox.classList.add('search-dropdown');
-  document.body.appendChild(resultBox);
+  // Create dropdown
+  const dropdown = document.createElement("div");
+  dropdown.style.position = "absolute";
+  dropdown.style.background = "#fff";
+  dropdown.style.border = "1px solid #ccc";
+  dropdown.style.maxHeight = "200px";
+  dropdown.style.overflowY = "auto";
+  dropdown.style.display = "none";
+  dropdown.style.zIndex = "999";
+  dropdown.style.fontFamily = "Century Gothic, sans-serif";
+  document.body.appendChild(dropdown);
 
-  searchInput.addEventListener('input', function () {
-    const query = this.value.toLowerCase();
-    resultBox.innerHTML = '';
-    if (!query) {
-      resultBox.style.display = 'none';
+  // Search logic
+  searchInput.addEventListener("input", () => {
+    const val = searchInput.value.toLowerCase();
+    dropdown.innerHTML = "";
+    if (!val) {
+      dropdown.style.display = "none";
       return;
     }
 
-    Object.entries(articles).forEach(([id, article]) => {
-      if (article.title.toLowerCase().includes(query)) {
-        const link = document.createElement('a');
-        link.href = `latestnews.html?id=${id}`;
-        link.textContent = article.title;
-        link.style.display = 'block';
-        link.style.padding = '8px';
-        link.style.textDecoration = 'none';
-        link.style.color = 'black';
-        link.addEventListener('mouseover', () => link.style.background = '#eee');
-        link.addEventListener('mouseout', () => link.style.background = 'white');
-        resultBox.appendChild(link);
+    for (const id in articles) {
+      const article = articles[id];
+      if (article.title.toLowerCase().includes(val)) {
+        const item = document.createElement("a");
+        item.href = `latestnews.html?id=${id}`;
+        item.textContent = article.title;
+        Object.assign(item.style, {
+          display: "block",
+          padding: "8px",
+          textDecoration: "none",
+          color: "#000"
+        });
+        item.addEventListener("mouseover", () => item.style.background = "#eee");
+        item.addEventListener("mouseout", () => item.style.background = "white");
+        dropdown.appendChild(item);
       }
-    });
+    }
 
     const rect = searchInput.getBoundingClientRect();
-    resultBox.style.top = `${rect.bottom + window.scrollY}px`;
-    resultBox.style.left = `${rect.left + window.scrollX}px`;
-    resultBox.style.display = resultBox.innerHTML ? 'block' : 'none';
+    dropdown.style.left = `${rect.left + window.scrollX}px`;
+    dropdown.style.top = `${rect.bottom + window.scrollY}px`;
+    dropdown.style.width = `${rect.width}px`;
+    dropdown.style.display = dropdown.innerHTML ? "block" : "none";
   });
 
-  document.addEventListener('click', (e) => {
-    if (!searchInput.contains(e.target) && !resultBox.contains(e.target)) {
-      resultBox.style.display = 'none';
+  // Hide dropdown on outside click
+  document.addEventListener("click", (e) => {
+    if (!dropdown.contains(e.target) && e.target !== searchInput) {
+      dropdown.style.display = "none";
     }
   });
+
+  // LOAD ARTICLE ON PAGE (latestnews.html)
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get("id");
+  if (id && articles[id]) {
+    const article = articles[id];
+    const image = document.getElementById("image");
+    const title = document.getElementById("title");
+    const author = document.getElementById("author");
+    const content = document.getElementById("content");
+
+    if (image) image.src = article.image;
+    if (title) title.textContent = article.title;
+    if (author) author.textContent = article.author;
+    if (content) content.innerHTML = article.content;
+  }
 });
 
-// --------------------- LOAD ARTICLE BY ID ---------------------
-function loadArticle(id) {
-  const article = articles[id];
-  if (!article) return;
-
-  const main = document.getElementById("main-article");
-  if (!main) return;
-
-  const image = document.getElementById("image");
-  const title = document.getElementById("title");
-  const author = document.getElementById("author");
-  const content = document.getElementById("content");
-
-  if (image && title && author && content) {
-    main.classList.add("fade-out");
-    setTimeout(() => {
-      image.src = article.image;
-      title.textContent = article.title;
-      author.textContent = article.author;
-      content.innerHTML = article.content.replace(/\n\s*\n/g, "<br><br>").replace(/\n/g, " ");
-      main.classList.remove("fade-out");
-    }, 400);
-  }
-}
-
-// --------------------- INIT ON latestnews.html ---------------------
-window.addEventListener('DOMContentLoaded', () => {
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
-  if (id) {
-    loadArticle(id);
-  }
-
-  // Make sidebar articles clickable
-  document.querySelectorAll('.related').forEach(item => {
-    item.addEventListener('click', () => {
-      const id = item.getAttribute('data-id');
-      if (id) loadArticle(id);
-    });
-  });
-});
 
 
