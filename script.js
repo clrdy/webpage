@@ -36,5 +36,5 @@ function updateAllTimestamps() {
             span.textContent = timeAgo(timestamp);
         }
     });
-}s
+}
 
